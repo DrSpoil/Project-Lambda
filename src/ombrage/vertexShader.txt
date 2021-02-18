@@ -1,0 +1,16 @@
+#version 400 core
+
+in vec3 position;
+in vec2 coordTexture;
+
+out vec2 pass_coordTexture;
+
+uniform mat4 transformationMatrice;
+uniform mat4 matriceProjection;
+uniform mat4 matriceVision;
+
+ void main(void){
+ 
+ 	gl_Position =  matriceProjection * matriceVision * transformationMatrice * vec4(position,1.0);
+ 	pass_coordTexture = coordTexture;
+ }
