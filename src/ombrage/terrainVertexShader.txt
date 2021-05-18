@@ -15,8 +15,6 @@ uniform mat4 matriceProjection;
 uniform mat4 matriceVision;
 uniform vec3 positionLumiere;
 
-uniform float utiliseFausseLumiere;
-
 const float densite = 0.013;
 const float gradient = 1.5;
 
@@ -27,18 +25,12 @@ const float gradient = 1.5;
  	gl_Position =  matriceProjection * positionRelativeACamera;
  	pass_coordTexture = coordTexture;
  	
- 	vec3 normaleActuelle = normal;
- 	
- 	if(utiliseFausseLumiere>0.5){
- 		normaleActuelle = vec3(0.0,1.0,0.0);
- 	}
- 	
- 	surfaceNormal = (transformationMatrice * vec4(normaleActuelle,0.0)).xyz;
+ 	surfaceNormal = (transformationMatrice * vec4(normal,0.0)).xyz;
  	versLumiereVecteur = positionLumiere - positionMonde.xyz;
  	versCameraVecteur = (inverse(matriceVision) * vec4(0.0,0.0,0.0,1.0)).xyz - positionMonde.xyz;
  	
  	float distance = length(positionRelativeACamera.xyz);
  	visibilite = exp(-pow((distance*densite),gradient));
  	visibilite = clamp(visibilite,0.0,1.0);
- 
+ 	
  }

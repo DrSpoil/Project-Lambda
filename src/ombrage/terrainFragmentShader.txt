@@ -8,7 +8,11 @@ in float visibilite;
 
 out vec4 out_Couleur;
 
-uniform sampler2D textureSampler;
+uniform sampler2D backgroundTexture;
+uniform sampler2D rTexture;
+uniform sampler2D gTexture;
+uniform sampler2D bTexture;
+uniform sampler2D blendMap;
 
 uniform vec3 couleurLumiere;
 uniform float coucheBrillance;
@@ -17,6 +21,18 @@ uniform vec3 couleurCiel;
 
 void main(void){
 	
+	vec4 blendMapCouleur = texture(blendMap,pass_coordTexture);
+	
+	float backTextureAmount = 1 - (blendMapCouleur.r + blendMapCouleur.g + blendMapCouleur.b);
+	vec2  tiledCoords = pass_coordTexture * 40.0;
+	vec4  backgroundTextureCouleur = texture(backgroundTexture,tiledCoords) * backTextureAmount;
+	vec4  rTextureCouleur = texture(rTexture,tiledCoords) * blendMapCouleur.r;
+	vec4  gTextureCouleur = texture(gTexture,tiledCoords) * blendMapCouleur.g;
+	vec4  bTextureCouleur = texture(bTexture,tiledCoords) * blendMapCouleur.b;
+	
+	vec4 couleurTotal = backgroundTextureCouleur + rTextureCouleur + gTextureCouleur + bTextureCouleur;
+
+
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitLumiere = normalize(versLumiereVecteur);
 	
@@ -33,11 +49,7 @@ void main(void){
 	float coucheFacteur = pow(facteurSpeculaire,coucheBrillance);
 	vec3 finalSpeculaire = coucheFacteur * reflectivite *couleurLumiere;
 	
-	vec4 couleurTexture = texture(textureSampler,pass_coordTexture);
-	if(couleurTexture.a<0.5){
-		discard;
-	}
-		
-	out_Couleur = vec4(diffuse,1.0) * texture(textureSampler,pass_coordTexture) + vec4(finalSpeculaire,1.0);
+	out_Couleur = vec4(diffuse,1.0) * couleurTotal + vec4(finalSpeculaire,1.0);
 	out_Couleur = mix(vec4(couleurCiel,1.0),out_Couleur,visibilite);
+	
 }
