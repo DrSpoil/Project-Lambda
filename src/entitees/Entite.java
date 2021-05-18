@@ -4,16 +4,33 @@ import org.lwjgl.util.vector.Vector3f;
 
 import modeles.TextureAvecModele;
 
+/* La classe qui se charge de transformer
+   les formes 3D en entite pour pouvoir
+   les deplacer ou les tourner sur
+   les axe x,y et z.
+*/
 public class Entite {
 	
 	private TextureAvecModele modele;
 	private Vector3f position;
 	private float rotX, rotY, rotZ;
 	private float scale;
+	
+	private Vector3f vitesse = new Vector3f(0,0,0);
+	private Vector3f acceleration = new Vector3f(0,0,0);
+	private Vector3f force = new Vector3f(0,0,0);
 
-	public Entite(TextureAvecModele modele, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+	private static final float TERRAIN_HAUTEUR = 1;
+	private static final float GRAVITE = -0.00075f;
+	private float masse;
+
+	private boolean estDansAir = false;
+	
+	//Constructeur
+	public Entite(TextureAvecModele modele, Vector3f position, float masse,float rotX, float rotY, float rotZ, float scale) {
 		super();
 		this.modele = modele;
+		this.masse = masse;
 		this.position = position;
 		this.rotX = rotX;
 		this.rotY = rotY;
@@ -21,13 +38,33 @@ public class Entite {
 		this.scale = scale;
 	}
 	
-	public void Deplacement(float dx, float dy, float dz) {
-		this.position.x += dx;
-		this.position.y += dy;
-		this.position.z += dz;
+	public void deplacement() {
+		this.vitesse.x += acceleration.x;
+		this.vitesse.y += acceleration.y;
+		this.vitesse.z += acceleration.z;
+		this.position.x += vitesse.x;
+		this.position.y += vitesse.y;
+		this.position.z += vitesse.z;
+		
+		forceGravitationnelle();
+		
+		if(position.y<=TERRAIN_HAUTEUR) {
+			position.y = TERRAIN_HAUTEUR;
+			vitesse.y = 0;
+			acceleration.y = 0;
+			estDansAir = false;
+		}
 
 	}
 	
+	public void forceGravitationnelle() {
+		if(estDansAir) {
+			acceleration.y += GRAVITE; 
+			force.y = masse*GRAVITE;
+
+		}
+	}
+
 	public void augmenteRotation(float dx, float dy, float dz) {
 		this.rotX += dx;
 		this.rotY += dy;
@@ -35,6 +72,41 @@ public class Entite {
 
 	}
 	
+	public float getMasse() {
+		return masse;
+	}
+
+	public void setMasse(float masse) {
+		this.masse = masse;
+	}
+	
+	
+	public Vector3f getForce() {
+		this.force.x = masse*acceleration.x;
+		this.force.y = masse*acceleration.y;
+		this.force.z = masse*acceleration.z;
+		return force;
+	}
+
+	public void setForce(Vector3f force) {
+		this.force = force;
+	}
+	
+	public Vector3f getAcceleration() {
+		return acceleration;
+	}
+	
+	public void setAcceleration(Vector3f acceleration) {
+		this.acceleration = acceleration;
+	}
+	
+	public Vector3f getVitesse() {
+		return vitesse;
+	}
+	
+	public void setVitesse(Vector3f vitesse) {
+		this.vitesse = vitesse;
+	}
 	
 	public TextureAvecModele getModele() {
 		return modele;

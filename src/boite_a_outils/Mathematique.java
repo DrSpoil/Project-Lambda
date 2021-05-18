@@ -5,8 +5,14 @@ import org.lwjgl.util.vector.Vector3f;
 
 import entitees.Camera;
 
+/* Classe qui se charge de toute les formules mathematiques.
+   Dans cette classe, les notions vu en algebre lineaire sont
+   implemente.
+*/
 public class Mathematique {
 	
+	
+	//Cree une matrice qui transforme les objets en 3D (position, rotation, grandeure etc)
 	public static Matrix4f creeTransformationMatrice(Vector3f translation, float rx, float ry, float rz, float scale) {
 		
 		Matrix4f matrice = new Matrix4f();
@@ -20,7 +26,7 @@ public class Mathematique {
 		return matrice;
 		
 	}
-	
+	//Cree une matrice qui sera utiliser pour utiliser la camera
 	public static Matrix4f createMatriceVision(Camera camera) {
 		
 		Matrix4f matriceVision = new Matrix4f();

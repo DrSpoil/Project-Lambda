@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-
+//Classe qui applique l'ombrage (shader) aux objet 3D 
 public abstract class OmbrageClass {
 	
 	private int idProgramme;
@@ -18,7 +18,7 @@ public abstract class OmbrageClass {
 	private int	idFragmentShader;
 	
 	private static FloatBuffer matriceBuffer = BufferUtils.createFloatBuffer(16);
-	
+	//Constructeur
 	public OmbrageClass(String fichieVertex, String fichierFragment) {
 		this.idVertexShader = chargeOmbrage(fichieVertex, GL20.GL_VERTEX_SHADER);
 		this.idFragmentShader = chargeOmbrage(fichierFragment, GL20.GL_FRAGMENT_SHADER);
@@ -61,8 +61,12 @@ public abstract class OmbrageClass {
 		
 	}
 	
-	protected void chargeFloat(int location, int valeur) {
+	protected void chargeFloat(int location, float valeur) {
 		GL20.glUniform1f(location, valeur);
+	}
+	
+	protected void chargeInt(int location, int valeur) {
+		GL20.glUniform1i(location, valeur);
 	}
 	
 	protected void chargeVecteur(int location, Vector3f vecteur) {
@@ -86,6 +90,7 @@ public abstract class OmbrageClass {
 	private static int chargeOmbrage(String fichier, int type) {
 		StringBuilder shaderSource = new StringBuilder();
 		  try{
+			  
 		   BufferedReader reader = new BufferedReader(new FileReader(fichier));
 		   String line;
 		   while((line = reader.readLine())!=null){
