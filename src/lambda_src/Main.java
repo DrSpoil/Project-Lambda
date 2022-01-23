@@ -18,7 +18,6 @@ import textures.TextureTerrain;
 import textures.TextureTerrainPack;
 import modeles.TextureAvecModele;
 import moteurAffichage.Affichage;
-//import moteurAffichage.ChargeFichierObj;
 import moteurAffichage.ChargeModele3d;
 import moteurAffichage.MasterRenduGraphique;
 import terrains.Terrain;
@@ -178,14 +177,7 @@ public class Main {
 		  //Player
 		  		  
 		  Camera camera = new Camera();
-		  
-		//crosshair
-		 
-		 
-		 // TextureAvecModele crosshairModeleStatique = new TextureAvecModele(crosshair, new ModeleTexture(chargeur.chargeTexture("crosshair3")));
-		  
-		 // Entite entiteCrosshair = new Entite(crosshairModeleStatique, new Vector3f(camera.getPosition().x,camera.getPosition().y,camera.getPosition().z-10),0,0,0,1);
-		
+
 		  toutesEntites.add(entiteCube0);
 		  toutesEntites.add(entiteCube1);
 		  toutesEntites.add(entiteCube2);
@@ -244,11 +236,9 @@ public class Main {
 			}
 			if(entiteSphere4.getPosition().y<=entitePlateforme.getPosition().y+1) {
 				entiteSphere4.setVitesse(new Vector3f(entiteSphere4.getVitesse().x,-1*entiteSphere4.getVitesse().y,entiteSphere4.getVitesse().z));
-				entiteSphere4.setAcceleration(new Vector3f(entiteSphere4.getAcceleration().x,-1*entiteSphere4.getAcceleration().y,entiteSphere4.getAcceleration().z));
 			}
 			if(entiteSphere4.getPosition().y>=entitePlateforme2.getPosition().y-1) {
 				entiteSphere4.setVitesse(new Vector3f(entiteSphere4.getVitesse().x,-1*entiteSphere4.getVitesse().y,entiteSphere4.getVitesse().z));
-				entiteSphere4.setAcceleration(new Vector3f(entiteSphere4.getAcceleration().x,-1*entiteSphere4.getAcceleration().y,entiteSphere4.getAcceleration().z));
 			}
 			if(entiteSphere5.getPosition().z<=entitePlateforme7.getPosition().z+4) {
 				entiteSphere5.setVitesse(new Vector3f(entiteSphere5.getVitesse().x,entiteSphere5.getVitesse().y,-1*entiteSphere5.getVitesse().z));

@@ -3,6 +3,7 @@ package frameGUI;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -48,10 +49,12 @@ public class Frame extends JFrame implements ActionListener{
 	
 	
 	public Frame() {
-		
+
+		File lambdaLogo = new File("res/Lambda2.png");
+
 		icon = new ImageIcon("res/Project-LambdaIcon.png");
 		
-		logo = new ImageIcon("res/Lambda2.png");
+		logo = new ImageIcon(lambdaLogo.getAbsolutePath());
 		
 		label = new JLabel();
 		
